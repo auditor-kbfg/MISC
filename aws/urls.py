@@ -5,6 +5,7 @@ from . import views
 
 urlpatterns = [
     path('awskey/',views.awskey),
-    path('resource/',views.resource),
-    path('ec2/',views.ec2),
+    path('ec2save/',views.ec2save),
+    path('ec2list/',views.ec2all),
+    path('ec2detail/',views.ec2detail)
 ]

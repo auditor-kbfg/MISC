@@ -1,69 +1,134 @@
-from django.shortcuts import render, redirect
-from .models import AWSKEY
-from .aws_session import db_session, hard_seesion
-from django.core.exceptions import ObjectDoesNotExist
+from django.shortcuts import render , get_list_or_404 , redirect
 from django.http import HttpResponse
-
-import boto3
+from .models import AWSKEY ,EC2 
+from users.models import USERS
+from .aws_session import db_session ,hard_seesion,sso_session, awsmode
+from django.core.exceptions import ObjectDoesNotExist
+from django.views.generic import View
+from pprint import pprint
 
 # Create your views here.
 def awskey(req):
-    if req.method == 'POST':
-        id = req.POST.get("user_id")
-        access = req.POST.get("aws_access")
-        secret = req.POST.get("aws_secret")
-        token = req.POST.get("aws_token")
-        region = req.POST.get("aws_region")
-        profile = req.POST.get("aws_profile")
-
-        if any(value is None for value in [id, access, secret, token, region, profile]):
-            return HttpResponse("입력값이 누락되었습니다")
-
-        try: 
-            ret = AWSKEY.objects.get(user_id=id) # 조회하여 기존 아이디를 가진 레코드 조회 후 업데이트
-            ret.aws_access = access
-            ret.aws_secret = secret
-            ret.aws_token = token
-            ret.aws_region = region
-            ret.aws_profile = profile
-            ret.save()
-        except ObjectDoesNotExist: # 하나도 없을 때는 생성
-            ret = AWSKEY(user_id=id, aws_access=access, aws_secret=secret, aws_token=token, aws_region=region, aws_profile=profile)
-            ret.save()
-        except:
+    user=req.user
+    if user.is_authenticated: # 로그인 되어있다면
+        if req.method=='GET':
+            return render(req,'aws/awskey.html')
+        elif req.method== 'POST':
+            access=req.POST.get("aws_access")
+            secret=req.POST.get("aws_secret")
+            token=req.POST.get("aws_token")
+            region=req.POST.get("aws_region")
+            profile=req.POST.get("aws_profile")
+            try: 
+                ret=AWSKEY.objects.get(user_id=user.username) # 조회 하여 기존 아이디를 가진 레코드 조회 후 업데이트
+                ret.aws_access=access
+                ret.aws_secret=secret
+                ret.aws_token=token
+                ret.aws_region=region
+                ret.aws_profile=profile
+                ret.save()
+            except ObjectDoesNotExist: # 하나도 없을 때는 생성
+                #  유저 조회
+                ret=AWSKEY(user_id=user.username,aws_access=access,aws_secret=secret,aws_token=token,aws_region=region,aws_profile=profile,fk_key=user)
+                ret.save()
+            except:
+                return redirect('/')
+        else:
             return redirect('/')
         return redirect('/')
-    else: # GET 
-        return render(req, 'aws/awskey.html')
-    
-def resource(req):
-    if req.method=='POST':
-        id=req.POST.get("user_id")
-        print(id)
-        session=db_session(id)
-        print("session",session)
-        user=session.client('sts')
-        account_id =user.get_caller_identity().get('Account')
-        print("3",account_id)
-        return redirect('/')
-    else:
-        return render(req,'aws/resource.html')
-def ec2(req):
-    if req.method=='POST':
-        id=req.POST.get('user_id')
-        session=db_session(id)
-        ec2=session.client('ec2')
-        ec2_info={}
-        ret=ec2.describe_instances()
-        for reservation in ret["Reservations"]:
-            for i in reservation["Instances"]:
-                for j in i['Tags']:
-                    tagName='None'
-                    if j['Key']== 'Name':
-                        tagName=j['Value']
-                ec2_info[i["InstanceId"]]=[tagName,i['InstanceType'],i['State']['Name']]
-        print(ec2_info)
-        return redirect('/')
-    else:
-        return redirect('/')
-    
+    return redirect('/users/login')
+            
+def awskeylist(req): #자신의 키를 볼수있는 
+    if req.user.is_authenticated:
+        if req.method=='GET':   
+            keylist=AWSKEY.objects.filter(user_id=req.user)
+            return render(req,'/aws/awskeylist.html',{'keylist':keylist})
+    pass
+
+def awskeydelete(req):
+    if req.user.is_authenticated:
+        keydata=AWSKEY.objects.filter(user_id=req.user.username)
+        keydata.delete()
+    redirect('/')
+
+
+def ec2save(req):
+    #  모드는 인증 
+    if req.user.is_authenticated:
+        mode = req.COOKIES.get('mode','1') 
+        id=req.user.username
+        # session=sso_session(name)
+        session=awsmode(mode,id) #모드를 통해서 인증 모드는 쿠키에 있다
+        cli=session.client('ec2')
+        res=cli.describe_instances()
+        reservation=res['Reservations'][0]
+        for instance in reservation['Instances']:
+            try:
+                old=EC2.objects.get(InstanceId=instance['InstanceId'])
+                old.PlatformDetails=instance['PlatformDetails']
+                old.KeyName=instance['KeyName']
+                old.InstanceType=instance['InstanceType']
+                old.AvailabilityZone=instance['Placement']['AvailabilityZone']
+                old.PrivateIp=instance['PrivateIpAddress']
+                old.PbulicIp=instance['PublicIpAddress']
+                old.PublicDns=instance['PublicDnsName']
+                old.set_Tags(instance['Tags'])
+                old.save()
+            except ObjectDoesNotExist:
+                ec2=EC2(
+                    MyResourceName='test',#  이 값들은 aws에 존재 하지 않음
+                    MyResourceType='server',
+                    MyResourceDetails='ec2',
+                    MyResourceGrade='test grade',
+                    fk_key=req.user,
+                    PlatformDetails=instance['PlatformDetails'],
+                    InstanceId=instance['InstanceId'],
+                    KeyName=instance['KeyName'],
+                    InstanceType=instance['InstanceType'],
+                    AvailabilityZone=instance['Placement']['AvailabilityZone'] ,# Region
+                    PrivateIp=instance['PrivateIpAddress'],
+                    PbulicIp=instance['PublicIpAddress'],
+                    PublicDns=instance['PublicDnsName']
+                    # Tags=instance['Tags'] 이녀석은 dics 배열이라 어떻레 저장 할지 고민
+                )
+                ec2.set_Tags(instance['Tags'])
+                ec2.save()
+            # pprint(instance)
+        return redirect('/aws/ec2list/')
+    return redirect ('/users/login')
+
+def ec2all(req):
+    ec2alldata=EC2.objects.all()
+    # pprint(ec2alldata[0])
+    # for ec in ec2alldata:
+    #     print(ec.InstanceId)
+    return render(req,'aws/ec2list.html',{'data_list':ec2alldata})
+
+def ec2update(req):
+    if req.method=='GET':
+        idx=req.GET.get('id')
+        ec2one=EC2.objects.get(idx=id)
+        return render(req,'aws/ec2update.html',ec2one)
+    elif req.method=='POST':
+        ec2one=EC2.objects.get(id=id)
+        return redirect('/aws/ec2list/')
+
+def ec2detail(req):
+    if req.user.is_authenticated:
+        if req.method=='GET':
+            idx=int(req.GET.get("id"))
+            print(req.GET.get("id"))
+            # ec2one=EC2.objects.get(InstanceId=id)
+            ec2one=EC2.objects.get(idx=idx)
+            if ec2one.fk_key==req.user: # 사용자의 것이 맞으면
+                pprint(ec2one.InstanceId)
+                return render(req,'aws/ec2detail.html',{'ec2one':ec2one})
+    return redirect('/users/login')
+
+#  후에 인증 모드를 고를 수있는 api  로 이것으로 인증 방법 을 결정한다 쿠키에 넣어 사용
+def session_mode(request):
+    # render 함수를 사용하여 템플릿 렌더링 후, HttpResponse 객체를 생성
+    response = render(request, '/')
+    # HttpResponse 객체를 사용하여 쿠키를 설정
+    response.set_cookie('mode', '12345') # 인증 모드를 설정하는 쿠키
+    return response

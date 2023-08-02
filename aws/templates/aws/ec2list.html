@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <ul class="list-group">
+        <h5>ec2 resource list</h5>
+        {% for data in data_list %}
+        <li class="list-group-item">
+                <p>ec2 자원 순서 : {{ data.idx }} </p>
+                <a href="/aws/ec2detail/?id={{data.idx}}" ><h4>인스턴스 ID: {{ data.InstanceId }}</h4></a>
+                <p>{{ data.KeyName }}</p>
+            </li>
+        </ul>
+                <!-- <p>{{ object.content }}</p> -->
+            <!-- <button class="delete btn btn-danger" data-id="<%= posts[i]._id %>">삭제</button>
+            <button type="button" onclick="location.href='/edit/<%= posts[i]._id %>'" >수정</button>
+            <button class="btn btn-secondary chat" data-id="<%= posts[i].user_id %>">채팅</button> -->
+        {% endfor %}        
+</div>    
+{% endblock %}

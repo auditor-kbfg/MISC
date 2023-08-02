@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <ul class="list-group">
+        <h5>ec2 resource detail</h5>
+        <li class="list-group-item">
+                <p>ec2 자원 순서 : {{ ec2one.idx }}</p>
+                <p>ec2 keyname  : {{ ec2one.KeyName }}</p>
+                
+            </li>
+        </ul>
+</div>   
+{% endblock %}

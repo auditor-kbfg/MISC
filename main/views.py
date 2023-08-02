@@ -18,3 +18,8 @@ def reqtest(req):
         print("get")
         print(a)
         return redirect('/')
+def modetest(req):
+    mode=req.COOKIES.get('mode')
+    print(mode)
+    print(type(mode))
+    return redirect('/')
