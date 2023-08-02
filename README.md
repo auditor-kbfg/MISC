@@ -5,7 +5,10 @@ We Study
 Mobile Application Analyze(Reversing, Hooking and so on) 
 Cloud Security Posture Management
 
-TeamLeader: JongChan Park   @KBBANK  
-TeamMember: JeongCheol Kang @SecureLog  
+TeamLeader: 
+TeamMember: 
+****
+    JongChan Park   @KBBANK(Leader)  
+    JeongCheol Kang @SecureLog  
     DongKyu Kim     @Stealiean   
     MinSeok Kim     @SolidStep  
