@@ -7,5 +7,5 @@ Cloud Security Posture Management
 
 TeamLeader: JongChan Park   @KBBANK  
 TeamMember: JeongCheol Kang @SecureLog  
-            DongKyu Kim     @Stealiean   
-            MinSeok Kim     @SolidStep  
+    DongKyu Kim     @Stealiean   
+    MinSeok Kim     @SolidStep  
