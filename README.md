@@ -1,5 +1,6 @@
 # MISC_CSPM
 ## Cloud Resource Management System    
+Join Project Member: JongChan, MinSeok, JeonCheol
 ### How to use  
 #관리자 권한 사용 필수
 1. Start batch file(00 python.bat) #내장된 파이썬 사용을 위해 환경변수 설정
