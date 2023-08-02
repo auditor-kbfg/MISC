@@ -1,7 +1,7 @@
 # MISC_CSPM
 ## Cloud Resource Management System    
 ### How to use  
-####1.
+1.
 
 
 
