@@ -1,11 +1,15 @@
 # MISC_CSPM
+## CLoud Resource Management System  
+### We Are Security Team MISC(Miscellaneous Information Security Crew)  
 
-We Are Security Team MISC(Miscellaneous Information Security Crew)
-We Study 
-Mobile Application Analyze(Reversing, Hooking and so on) 
-Cloud Security Posture Management
+#### We Study  
+>Mobile Application Analyze(Reversing, Hooking and so on)  
+>Cloud Security Posture Management  
+>EBPF(Soon)
 
-TeamLeader: JongChan Park   @KBBANK 
-TeamMember: JeongCheol Kang @SecureLog 
-            DongKyu Kim     @Stealiean 
-            MinSeok Kim     @SolidStep
+#### TeamMember:
+>JongChan Park   @KBBANK(Leader)  
+>MinSeok Kim     @SolidStep   
+>JeongCheol Kang @SecureLog  
+>DongKyu Kim     @Stealiean   
+
