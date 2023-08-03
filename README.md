@@ -9,7 +9,7 @@ CSPM Project Member: JongChan, MinSeok, JeonCheol
 4. connect 127.0.0.1:8000 using Chrome #크롬을 통해서 CSPM 접속
 
 ### What We Use
->Django @Python3
+>Django @Python3  
 >boto3 @Python3
 
 ### We Are Security Team MISC(Miscellaneous Information Security Crew)  
