@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+          <h5>s3 resource table</h5>
+        <table  class="table">
+            <thead>
+                <!-- 여기에 속성 명 기입 하기 -->
+              <tr> 
+                <th scope="col">순서</th>
+                <th scope="col">abcdef0</th>
+                <th scope="col">abcdef1</th>
+                <th scope="col">abcdef2</th>
+                <th scope="col">abcdef3</th>
+                <th scope="col">abcdef4</th>
+                <th scope="col">abcdef5</th>
+                <th scope="col">abcdef6</th>
+                <th scope="col">abcdef7</th>
+                <th scope="col">abcdef8</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for data in data_list %}
+              <tr>
+                <th scope="row">{{data.idx}}</th>
+                <!-- <td>{{data.}}</td> -->
+                <!-- <td>{{data.}}</td> -->
+              </tr>
+              {% endfor %}   
+            </tbody>
+          </table>
+        </div>        
+                <!-- <p>{{ object.content }}</p> -->
+            <!-- <button class="delete btn btn-danger" data-id="<%= posts[i]._id %>">삭제</button>
+            <button type="button" onclick="location.href='/edit/<%= posts[i]._id %>'" >수정</button>
+            <button class="btn btn-secondary chat" data-id="<%= posts[i].user_id %>">채팅</button> -->
+          
+</div>    
+{% endblock %}

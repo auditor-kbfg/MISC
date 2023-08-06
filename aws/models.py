@@ -40,16 +40,16 @@ class EC2(models.Model):
     # MyResourceGrade:str=models.CharField(max_length=10,default='test grade')
 
     """
-        idx=models.BigAutoField(primary_key=True)
-        fk_key= models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,null=False,default='')
+    No    idx=models.BigAutoField(primary_key=True)
+    고유 값:    fk_key= models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,null=False,default='')
     자산 이름:  MyResourceName=models.CharField(max_length=20,default='')
     자산 유형: MyResourceType=models.CharField(max_length=10,default='')
-        MyResourceDetails=models.CharField(max_length=10,default='')
+    자산 유형(상세):    MyResourceDetails=models.CharField(max_length=10,default='')
     등급(수동)    MyResourceGrade=models.CharField(max_length=10,default='')
-        PlatformDetails=models.CharField(max_length=20,default='')
+    OS:    PlatformDetails=models.CharField(max_length=20,default='')
     자산 ID:    InstanceId=models.CharField(max_length=30,default='')
     Key 이름:    KeyName=models.CharField(max_length=20,default='')
-    자산유형(?)    InstanceType=models.CharField(max_length=15,default='')
+    자산유형(t2마이크로 제거필요)    InstanceType=models.CharField(max_length=15,default='')
     지역:    AvailabilityZone=models.CharField(max_length=20,default='')
     IP(사설):    PrivateIp=models.CharField(max_length=20,default='')
     IP(공인):    PbulicIp=models.CharField(max_length=20,default='')
@@ -58,7 +58,6 @@ class EC2(models.Model):
 
     VPC(네트워크)
     SG(네트워크): 
-    OS 정보: Linux(amazon) /Windows
     상태: Running/ 
 
 

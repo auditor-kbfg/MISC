@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h4 class="text-center">값을 입력해주세요</h4>
+    <div class="container mt-4" >
+        <form action="/aws/awssso/" method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label>start url</label>
+            <input type="text" class="form-control" name="LoginUrl">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+{% endblock %}

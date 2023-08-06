@@ -3,8 +3,6 @@ import boto3
 import os
 from .models import AWSKEY
 
-
-
 # .env 를 이용한
 def env_session():
     aws_access=os.environ.get('aws_access_key_id')
@@ -54,7 +52,7 @@ def sso_session(name:str):
 
 # class aws_session():
 # 인증모드에 따라서 인증함
-def awsmode(num:str='1',id=None): # 기본값 db session
+def awsmode(num:str='5',id=None): # 기본값 db session
     session=None
     if num=='1':
         session=db_session(id)
