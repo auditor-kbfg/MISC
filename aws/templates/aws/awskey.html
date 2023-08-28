@@ -6,23 +6,23 @@
         {% csrf_token %}
         <div class="form-group">
             <label>User access</label>
-            <input type="text" class="form-control" name="aws_access">
+            <input type="text" class="form-control" name="aws_access" value="{{ keydata.aws_access }}">
         </div>
         <div class="form-group">
             <label>User secret</label>
-            <input type="text" class="form-control" name="aws_secret">
+            <input type="text" class="form-control" name="aws_secret" value="{{ keydata.aws_secret }}">
         </div>
         <div class="form-group">
             <label>User token</label>
-            <input type="text" class="form-control" name="aws_token">
+            <input type="text" class="form-control" name="aws_token" value="{{keydata.aws_token}}">
         </div>
         <div class="form-group">
             <label>User region</label>
-            <input type="text" class="form-control" name="aws_region">
+            <input type="text" class="form-control" name="aws_region" value="{{keydata.aws_region}}">
         </div>
         <div class="form-group">
             <label>User profile</label>
-            <input type="text" class="form-control" name="aws_profile">
+            <input type="text" class="form-control" name="aws_profile" value="{{keydata.aws_profile}}">
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
         </form>

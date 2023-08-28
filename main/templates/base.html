@@ -6,6 +6,7 @@
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}">
     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> -->
+    <script src="{% static 'bootstrap.bundle.min.js' %}"></script>
     <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script> -->
     <title>Document</title>
 </head>
@@ -22,27 +23,27 @@
                     <a class="nav-link active" aria-current="page" href="/">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/users/login/">Login</a>
+                    <a class="nav-link active" aria-current="page" href="#">Login</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/users/join/">Join</a>
+                    <a class="nav-link active" aria-current="page" href="#">Join</a>
                 </li>
+                <!-- <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">SsoLogin</a>
+                </li> -->
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/aws/awssso/">SsoLogin</a>
-                </li>
-                <li class="nav-item">
-                    <button onclick="setMode(1)" class="btn btn-primary">Mode:1</button>
+                    <button onclick="setMode(5)" class="btn btn-primary">Mode:DB 연결</button>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     인증 모드
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <li><button onclick="setMode(1)" class="dropdown-item">Mode:1</button></li>
+                    <li><button onclick="setMode(1)" class="dropdown-item">Mode:DB 연결</button></li>
                     <li><button onclick="setMode(2)" class="dropdown-item">Mode:2</button></li>
                     <li><button onclick="setMode(3)" class="dropdown-item">Mode:3</button></li>
                     <li><button onclick="setMode(4)" class="dropdown-item">Mode:4</button></li>
-                    <li><button onclick="setMode(5)" class="dropdown-item">Mode:5</button></li>
+                    <li><button onclick="setMode(5)" class="dropdown-item">Mode:sso 연결</button></li>
                     <li><a class="dropdown-item" href="#">Another action</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="#">Something else here</a></li>
@@ -67,7 +68,7 @@
     function setMode(modenum){
         if (modenum==1){
             document.cookie='mode='+modenum;
-            alert('모드는 1 입니다');
+            alert('모드는 DB 연결 입니다');
         }
         else if(modenum==2){
             document.cookie='mode='+modenum;
@@ -83,7 +84,7 @@
         }
         else if(modenum==5){
             document.cookie='mode='+modenum;
-            alert('모드는 5 입니다');
+            alert('모드는 sso 연결 입니다');
         }
         else{
             alert('다시 모드를 설정해주세요');

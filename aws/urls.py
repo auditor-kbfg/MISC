@@ -12,5 +12,4 @@ urlpatterns = [
     path('s3all/',views.s3all),
     path('netinfosave/',views.netinfosave),
     path('netinfoall/',views.netinfoall),
-    path('awssso/',views.awssso),
 ] 

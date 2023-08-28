@@ -17,8 +17,8 @@ def env_session():
     )
     return session
 # db에서 id 를 기준으로 값을 뽑아서 연결 
-def db_session(id):
-    key= AWSKEY.objects.get(username=id)
+def db_session():
+    key= AWSKEY.objects.get(idx=1)
     session = boto3.Session(
         aws_access_key_id=key.aws_access,
         aws_secret_access_key=key.aws_secret,
@@ -36,7 +36,6 @@ def hard_seesion():
         region_name="ap-northeast-2"
     )
     print(session)
-    print('db session ')
     return session
 # db 에있는 profile을 이용한 연결
 def profile_session(id):
@@ -52,10 +51,10 @@ def sso_session(name:str):
 
 # class aws_session():
 # 인증모드에 따라서 인증함
-def awsmode(num:str='5',id=None): # 기본값 db session
+def awsmode(num:str): # 기본값 db session
     session=None
     if num=='1':
-        session=db_session(id)
+        session=db_session()
     elif num=='2':
         session=hard_seesion()
     elif num=='3':
@@ -63,5 +62,5 @@ def awsmode(num:str='5',id=None): # 기본값 db session
     elif num=='4':
         session=base_session()
     elif num=='5':
-        session=sso_session('vanni')
+        session=sso_session()
     return session
