@@ -26,5 +26,4 @@ CSPM Project Member: JongChan, MinSeok, JeonCheol
 >JongChan Park   @KBBANK(Leader)  
 >MinSeok Kim     @SolidStep   
 >JeongCheol Kang @SecureLog  
->DongKyu Kim     @Stealiean   
 
