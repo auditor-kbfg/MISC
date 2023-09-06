@@ -1,22 +1,22 @@
 @echo off
 
-rem ¹èÄ¡ ÆÄÀÏÀÌ À§Ä¡ÇÑ Æú´õ °æ·Î¸¦ »ó´ë °æ·Î·Î ÆÄ¾ÇÇÕ´Ï´Ù.
+rem ë°°ì¹˜ íŒŒì¼ì´ ìœ„ì¹˜í•œ í´ë” ê²½ë¡œë¥¼ ìƒëŒ€ ê²½ë¡œë¡œ íŒŒì•…í•©ë‹ˆë‹¤.
 for %%I in ("%~dp0") do set "parent_dir=%%~fI"
 set "python_path=%parent_dir%python3"
-rem PATH¿¡ »õ·Î¿î path ¼ÂÆÃ
+rem PATHì— ìƒˆë¡œìš´ path ì…‹íŒ…
 
-rem %parent_dir%Scripts °ªÀ» %scripts_path% º¯¼ö¿¡ ÀúÀåÇÕ´Ï´Ù.
+rem %parent_dir%Scripts ê°’ì„ %scripts_path% ë³€ìˆ˜ì— ì €ì¥í•©ë‹ˆë‹¤.
 set "scripts_path=%parent_dir%python3\Scripts"
 
-rem ±âÁ¸ÀÇ PATH¿¡ %scripts_path%¸¦ Ãß°¡ÇÕ´Ï´Ù.
-set "PATH=%python_path%;%PATH%"
-set "PATH=%scripts_path%;%PATH%"
-echo »õ·Î¿î °æ·Î°¡ PATH È¯°æ º¯¼ö¿¡ Ãß°¡µÇ¾ú½À´Ï´Ù.
+rem ê¸°ì¡´ì˜ PATHì— %scripts_path%ë¥¼ ì¶”ê°€í•©ë‹ˆë‹¤.
+set "PATH=%PATH%;%python_path%"
+set "PATH=%PATH%;%scripts_path%"
+echo ìƒˆë¡œìš´ ê²½ë¡œê°€ PATH í™˜ê²½ ë³€ìˆ˜ì— ì¶”ê°€ë˜ì—ˆìŠµë‹ˆë‹¤.
 
-rem º¯°æµÈ PATH È¯°æ º¯¼ö¸¦ È®ÀÎÇÕ´Ï´Ù.
+rem ë³€ê²½ëœ PATH í™˜ê²½ ë³€ìˆ˜ë¥¼ í™•ì¸í•©ë‹ˆë‹¤.
 echo %PATH%
 
-rem ½Ã½ºÅÛ È¯°æº¯¼ö¿¡ »õ·Î¿î È¯°æº¯¼ö·Î ±³Ã¼
+rem ì‹œìŠ¤í…œ í™˜ê²½ë³€ìˆ˜ì— ìƒˆë¡œìš´ í™˜ê²½ë³€ìˆ˜ë¡œ êµì²´
 setx PATH "%PATH%" /M
 
 pause
