@@ -2,7 +2,7 @@ from django.urls import path
 
 from . import views
 
-
+# /aws/*
 urlpatterns = [
     path('awskey/',views.awskey),
     path('ec2save/',views.ec2save),
@@ -12,4 +12,5 @@ urlpatterns = [
     path('s3all/',views.s3all),
     path('netinfosave/',views.netinfosave),
     path('netinfoall/',views.netinfoall),
+    path('instanceCmd/',views.instance_cmd),
 ] 

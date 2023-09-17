@@ -38,10 +38,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'chat',
+    'channels',
     'aws',
     'main',
     'users',
+    
 ]
+
+# ASGI_APPLICATION = 'web.asgi.application'
 #  'django.middleware.csrf.CsrfViewMiddleware' csrf 토큰 검사 {% csrf_token %}
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

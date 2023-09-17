@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<div>
+    <div>
+    <div class="">
+        <div class="center"><h4 id="INSID-TITLE"></h4></div>
+        <span>ID@IP: </span><span id="userID"></span><span>@</span><span id="Public_IP"></span><br>
+        <div class="input-group">
+            {% csrf_token %}
+            <input class="form-control" id="cmd-input">
+            <button class="btn btn-secondary" id="send">전송</button>
+            <button class="btn btn-secondary" id="data-clear">CLEAR</button>
+            <button class="btn btn-secondary" id="InsIdAdd">ADD INS</button>
+        </div>
+        <div  id="chat-list">
+
+        </div>
+    </div>
+        <script>
+            let socket = new WebSocket("ws://127.0.0.1:8000/chat/test1")
+            //서버에 값 전송
+            socket.onopen=()=>{
+                socket.send(JSON.stringify({
+                    'msg':'전달할 메시지'
+                }))
+            }
+            // 서버에게 값받기
+            socket.addEventListener('message', (e) => {
+                const receiveData = JSON.parse(e.data)
+                console.log(receiveData)
+            })
+
+        </script>
+    </div>
+</div>
+
+{% endblock %}

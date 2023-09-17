@@ -5,3 +5,12 @@ __pycache__/
 *.log
 *.pot
 *.pyc
+users
+user/migrations/
+aws/migrations/
+main/migrations/
+# /mygrations
+__init__.py
+# **/migrations/*
+메모
+aws/templates/aws/test.html

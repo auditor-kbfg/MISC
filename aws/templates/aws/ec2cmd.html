@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% block content %}
+{% csrf_token %}
+
+<div>
+    <div>
+    <div class="">
+        <div class="center"><h4 id="INSID-TITLE"></h4></div>
+        <span>ID@IP: </span><span id="userID"></span><span>@</span><span id="Public_IP"></span><br>
+        <div class="input-group">
+            {% csrf_token %}
+            <input class="form-control" id="cmd-input">
+            <button class="btn btn-secondary" id="send">전송</button>
+            <button class="btn btn-secondary" id="data-clear">CLEAR</button>
+            <button class="btn btn-secondary" id="InsIdAdd">ADD INS</button>
+        </div>
+        <div  id="chat-list">
+
+        </div>
+    </div>
+
+    <script>
+        const Public="Public_Ip";
+        const Instance_ID_cookie="Instance_ID";
+        const url_cmd="/aws/instanceCmd/";
+        const host=window.location; // ip 를 가저오는 구문
+        const Addr=host.protocol+"//"+host.hostname+":"+host.port;
+        function getCookie(name) { // 쿠키를 가져오는 함수
+            const value = "; " + document.cookie;
+            const parts = value.split("; " + name + "=");
+            if (parts.length === 2) {
+                return parts.pop().split(";").shift();
+            }
+        }
+        document.addEventListener("DOMContentLoaded",function(){  // 로드 될때 마다 아이피 값을 보여주는 친구
+            const IP=getCookie(Public);
+            const ID=getCookie(Instance_ID_cookie);
+            if(IP){
+                const IpElement=$("#Public_IP");
+                IpElement.text(IP);
+            }else{
+                const IpElement=$("#Public_IP");
+                IpElement.text("error");
+            }if(true){
+                const userIDElement=$("#userID");
+                userIDElement.text("  userID");
+            }if(ID){
+                const IdElement=$("#INSID-TITLE")
+                IdElement.text("인스턴스 ID: "+ID);
+            }
+        })
+        // 화면 비우기
+        $('#data-clear').click(function(){
+            $('#chat-list').remove(); // html 비우기 
+        })
+        // 전송 및 html tag 추가
+
+
+        $('#send').click(function(){
+            let cmd_data=$('#cmd-input').val();
+            {% comment %} let InsId=getCookie(Instance_ID_cookie); // 쿠키에서 ins id 를 가져온다 {% endcomment %}
+            $('#cmd-input').val(''); //input value='' 값 비우기
+            let adddata= "<div class=''><li><pre>" + cmd_data + "</pre></li></div>";
+            $("#chat-list").append(adddata);
+            // 데이터 생성
+            var send_data={
+                {% comment %} Instance_Id:InsId, {% endcomment %}
+                command:cmd_data,
+            }
+            cmdexec(url_cmd,send_data)
+                {% comment %} .then(ret=>ret.json()) {% endcomment %}
+                .then(ret=>{
+                    let retdata= "<div class=''><li><pre>" +ret.data+ "</pre></li></div>";
+                    $("#chat-list").append(retdata);
+                })
+                .catch(err=>{
+                    console.error('에러 발생: ',err);
+                })
+        })
+        // 인스턴스 아이디 설정
+        {% comment %} $('#InsIdAdd').click(function(){
+            let orginsid=getCookie(Instance_ID_cookie);
+            let inputInsId=prompt('제어 하길 원하는  EC2 Instance ID 를 입력 해주세요 ',orginsid);
+            if(inputInsId){
+                document.cookie='Instance_ID='+inputInsId;
+                alert('입력 하신 인스턴스 아이디는: '+inputInsId);
+            }else{
+                alert('입력 하지 않았습니다')
+            }
+        }) {% endcomment %}
+        async function cmdexec(url,data){
+            let lasturl= Addr + url; // host name 과 path 를 합치기
+            let csrfToken=await getCookie('csrftoken');
+            try{
+                const res=await fetch(lasturl,{
+                    method:"POST",
+                    headers: {
+                        "Content-Type": "application/json", // JSON 형식의 데이터 전송
+                        "X-Csrftoken": csrfToken
+                    },
+                    body: JSON.stringify(data)
+                });
+                const ret=await res.json();
+                {% comment %} alert(ret); {% endcomment %}
+                return ret;
+            }catch(error){
+                alert(error);
+            }
+        } 
+    </script>
+    </div>
+</div>
+
+{% endblock %}

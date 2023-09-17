@@ -7,8 +7,6 @@ from web import settings
 class AWSKEY(models.Model):
     # idx = models.BigAutoField( primary_key=True)
     idx = models.IntegerField( primary_key=True,default=1)
-    # fk_key= models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,null=False,default='')
-    # user_id=models.CharField(max_length=50,default='')
     aws_access=models.CharField(max_length=40,default='')
     aws_secret=models.CharField(max_length=50,default='')
     aws_token=models.CharField(max_length=900,default='')
@@ -16,7 +14,6 @@ class AWSKEY(models.Model):
     aws_profile=models.CharField(max_length=40,default='')
 class EC2(models.Model):
     idx=models.BigAutoField(primary_key=True)
-    # fk_key= models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,null=False,default='')
     MyResourceName=models.CharField(max_length=20,default='')
     MyResourceType=models.CharField(max_length=10,default='')
     MyResourceDetails=models.CharField(max_length=10,default='')
@@ -42,13 +39,30 @@ class NETDB(models.Model):
     
 class IAMDB(models.Model):
     idx=models.BigAutoField(primary_key=True)
+    UserName = models.CharField(max_length=30,default='')
+    UserId = models.CharField(max_length=21,default='')
+    CreateDate = models.DateField()
+    PasswordLastUsed = models.DateTimeField()
+    ARN = models.CharField(max_length=2048,default='')
+    # GroupName = models.CharField(max_length=100,default='')
+    # Group_PolicyNames = models.CharField(max_length=100,default='')
+    # MFA_device_name = models.CharField(max_length=100,default='')
+    # MFA_device_status = models.CharField(max_length=100,default='')
+
+    #패스워드 정책
+    MinimumPasswordLength = models.IntegerField()
+    RequireLowercaseCharacters = models.IntegerField()
+    RequireUppercaseCharacters = models.IntegerField()
+    RequireNumbers = models.IntegerField()
+    RequireSymbols = models.IntegerField()
+    ExpirePasswords = models.IntegerField()
+    MaxPasswordAge = models.IntegerField()
+    PasswordReusePrevention = models.IntegerField()
+    
+    
+class IAMGROUPS(models.Model):
+    pass
+class IAMMFA(models.Model):
+    pass
     # 사설 ip  = PbulicIp
     # db1 = MyResourceDetails
-    
-    # MyResourceName:str=models.CharField(max_length=20,default='test')
-    # MyResourceType:str=models.CharField(max_length=10,default='server')
-    # MyResourceDetails:str=models.CharField(max_length=10,default='ec2')
-    # MyResourceGrade:str=models.CharField(max_length=10,default='test grade')
-
-# class s3(models.Model):
-#     idx = models.BigAutoField(primary_key=True)

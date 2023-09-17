@@ -1,7 +1,7 @@
 import boto3
 # from dotenv import load_dotenv
 import os
-from .models import AWSKEY
+from ..models import AWSKEY
 
 # .env 를 이용한
 def env_session():
@@ -53,14 +53,17 @@ def sso_session(name:str):
 # 인증모드에 따라서 인증함
 def awsmode(num:str): # 기본값 db session
     session=None
-    if num=='1':
-        session=db_session()
-    elif num=='2':
-        session=hard_seesion()
-    elif num=='3':
-        session=env_session()
-    elif num=='4':
-        session=base_session()
-    elif num=='5':
-        session=sso_session()
-    return session
+    try:
+        if num=='1':
+            session=db_session()
+        elif num=='2':
+            session=hard_seesion()
+        elif num=='3':
+            session=env_session()
+        elif num=='4':
+            session=base_session()
+        elif num=='5':
+            session=sso_session('vanni')
+        return session
+    except:
+        return -1
