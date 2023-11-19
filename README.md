@@ -23,7 +23,7 @@ CSPM Project Member: JongChan, MinSeok, JeonCheol
 >EBPF(Soon)
 
 #### TeamMember:
->JongChan Park   @KBBANK(Leader)  
+>(Leader)JongChan Park   @KBBANK  
 >MinSeok Kim     @SolidStep   
 >JeongCheol Kang @SecureLog  
 >1234
