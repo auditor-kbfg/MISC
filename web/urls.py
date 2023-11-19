@@ -23,6 +23,5 @@ urlpatterns = [
     path('', include('main.urls')),
     path('users/',include('users.urls')),
     path('aws/',include('aws.urls')),
-    
-
+    path('chat/',include('chat.urls')),
 ]

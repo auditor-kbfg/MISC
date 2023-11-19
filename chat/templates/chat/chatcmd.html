@@ -1,0 +1,129 @@
+<!DOCTYPE>
+{% extends 'base.html' %}
+{% block content %}
+<!-- 
+    파일이 왜 존재하는지 
+-->
+{% csrf_token %}
+<div>
+    <div>
+        <div class="">
+            <div class="center"><h4 id="INSID-TITLE"></h4></div>
+            
+            <div>
+            <span>ID@IP: </span><span id="userID"></span><span>@</span><span id="Public_IP"></span><br>
+            <input  type="hidden" id="InsId" value="{{data.InsId}}">
+            <input  type="hidden" id="mode" value="{{data.mode}}">
+            </div>
+            <div class="input-group mb-3">
+                {% csrf_token %}
+                <input class="form-control" id="cmd-input">
+                <button class="btn btn-secondary" id="msg-send">SEND</button>
+                <button class="btn btn-secondary" id="data-clear">CLEAR</button>
+                <button class="btn btn-secondary" id="con-close">CLOSE</button>
+            </div>
+        <div  id="chat-list">
+
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        let InsId='{{data.InsId}}';
+        let mode={{data.mode}};
+        let SerIp='{{data.ServerIp}}'
+        let test='room'
+        // WebSocket 연결
+        {% comment %} let chatSocket = new WebSocket(
+            `ws://${window.location.host}/chat/ec2cmd/${InsId}/`
+        ) {% endcomment %}
+        // 로드 될때 마다 실행되는 스크립트 ex.아이피 값을 보여기능
+        document.addEventListener("DOMContentLoaded",function(){ 
+            if(SerIp){
+                const IpElement=$("#Public_IP");
+                IpElement.text(SerIp);
+            }else{
+                const IpElement=$("#Public_IP");
+                IpElement.text("error");
+            }if(true){
+                const userIDElement=$("#userID");
+                userIDElement.text("  userID");
+            }if(InsId){
+                const IdElement=$("#INSID-TITLE")
+                // 여길 버튼으로 만들어서 재접속을 원할시 클릭하면 재연결 을 하는건데 ....
+                // let addTitle= "<button id='con-title' >"+"인스턴스 ID: " +InsId+ "</button>";
+                // IdElement.append(addTitle);
+                let addTitle= "인스턴스 ID: " +InsId;
+                IdElement.text(addTitle);
+            }
+        })
+        const chatSocket = new WebSocket(
+            `ws://${window.location.host}/ws/chat/${InsId}/`
+        );
+        chatSocket.onopen = (e) => {
+            console.log("WebSocket 연결이 열렸습니다.");
+        };
+        // clear log 지우기
+        $('#data-clear').click(function(){
+            $('#chat-list').remove(); // html 비우기 
+        })
+        //enter input listner
+        document.getElementById("cmd-input").addEventListener('keydown',(e)=>{
+            if(e.keyCode==13){
+                e.preventDefault();
+                document.getElementById('msg-send').click()
+            }
+        })
+        // send
+        $('#msg-send').click(sendmsg)
+        // send msg  
+        function sendmsg(){
+            let cmdmsg=$('#cmd-input').val();
+            if(cmdmsg===""){
+                alert("     입력값이 없습니다. \n     명령어를 입력해주세요!!");
+            }
+            $('#cmd-input').val(''); //input value='' 값 비우기
+            let addlog= "<div class='addlog'><li><pre>" + cmdmsg + "</pre></li></div>";
+            $("#chat-list").append(addlog);
+            // 데이터 생성
+            var send_data=JSON.stringify({
+                'InsId':InsId,
+                'mode':mode,
+                'msg' : cmdmsg
+            })
+            chatSocket.send(send_data);
+        }
+        // msg recv 수신하는것
+        chatSocket.addEventListener('message', (e) => {
+            let recvData = JSON.parse(e.data)
+            let retdata= "<div class=''><li><pre>" +recvData.msg+ "</pre></li></div>";
+            $("#chat-list").append(retdata);
+        })
+        //재연결 미완성
+        $('#con-title').click(function(){
+            alert("재연결 중입니다.")
+        })
+        //연결 종료 미완성 
+        $('#con-close').click(function(){
+            let DisconRet=confirm("연결을 종료 하시겠습니까? ")
+            chatSocket.onclose = (e) => {
+                console.log("WebSocket 연결이 종료되었습니다");
+            };
+
+
+            // 왜 안되는거지????
+            /**if(DisconRet=="true"){
+                alert("연결을 종료 했습니다.");
+                chatSocket.onclose = (e) => {
+                    //종료후 ec2 list 로 이동 하기
+                    location.href="/aws/list/"
+                };
+            }else{  
+            } */
+                
+            
+        })
+
+    </script>
+</div>
+
+{% endblock %}

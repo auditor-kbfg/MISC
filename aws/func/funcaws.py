@@ -3,7 +3,11 @@ from ..models import AWSKEY
 from django.core.exceptions import ObjectDoesNotExist
 
 def getMyKey():
-    ret=AWSKEY.objects.get(idx=1)
+    # -1 의 의미는 조회가 안됨 을 의미
+    try:
+        ret=AWSKEY.objects.get(idx=1)
+    except: 
+        ret=-1
     return ret
 
 def awsKeySave(access,secret,token,region,profile):

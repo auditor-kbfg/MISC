@@ -10,12 +10,18 @@ import time , json
 from .func.funciam import *
 from .func.funcec2 import *
 from .func.funcaws import *
+"""  
 
+
+"""
 # Create your views here.
 def awskey(req):
     if req.method=='GET': # 키를 전부 지우는 로직이 있어야해
         key=getMyKey()
-        if(key): 
+        # -1 이면 유저 키가 1 번을 조회 할수없음
+        if(key==-1): 
+            return render(req,'aws/awskey.html')
+        elif(key):
             return render(req,'aws/awskey.html',{'keydata':key})
         else:
             return render(req,'aws/awskey.html')
