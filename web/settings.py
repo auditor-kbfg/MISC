@@ -31,7 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    # 'polls.apps.PollsConfig',
+    'daphne',
+    # 'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -39,14 +40,20 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'chat',
-    'channels',
     'aws',
     'main',
     'users',
-    
 ]
 
-# ASGI_APPLICATION = 'web.asgi.application'
+ASGI_APPLICATION = 'web.asgi.application'
+# 메모리 관리 선택
+CHANNEL_LAYERS={}  
+# CHANNEL_LAYERS={
+#     "default":{
+#         "BACKEND":"channels.layers.InMemoryChannelLayer"
+#     }
+# }
+
 #  'django.middleware.csrf.CsrfViewMiddleware' csrf 토큰 검사 {% csrf_token %}
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -78,7 +85,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'web.wsgi.application'
+
 
 
 # Database

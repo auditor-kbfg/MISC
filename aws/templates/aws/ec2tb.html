@@ -41,17 +41,15 @@
             $('#cmd-go').click(function(){
               let InsID=$('#InsId').text();
               let PubIP=$('#PubIp').text();
-              let Addr=hrefVal.protocol+"//"+hrefVal.hostname+":"+hrefVal.port+"/aws/instanceCmd/";
+              let Addr=hrefVal.protocol+"//"+hrefVal.hostname+":"+hrefVal.port+"/chat/ec2cmd/";
+              
               location.href=Addr+"?Instance_Id="+InsID+"&Public_Ip="+PubIP;
-
             })
           </script>
-        </div>        
-                <!-- <p>{{ object.content }}</p> -->
+        </div>
+            <!-- <p>{{ object.content }}</p> -->
             <!-- <button class="delete btn btn-danger" data-id="<%= posts[i]._id %>">삭제</button>
             <button type="button" onclick="location.href='/edit/<%= posts[i]._id %>'" >수정</button>
             <button class="btn btn-secondary chat" data-id="<%= posts[i].user_id %>">채팅</button> -->
-
-          
 </div>    
 {% endblock %}
